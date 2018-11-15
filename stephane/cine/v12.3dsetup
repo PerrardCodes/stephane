@@ -1,0 +1,65 @@
+**setup**
+# Setup file is composed of filter commands and variable assignments.
+# Must start with **setup**
+# Filter commands should precede assigments in all cases!
+# Comments are ok.
+# Basic math/trig functions from numpy and datetime.datetime imported into namespace.
+# Image4D object imported variables: header, volume_size, filename
+# Filename is filename
+# These should be defined:
+#  - scale (mm/pixel)
+#  - rate (volume rate)
+#  - x_func, y_func, and z_func: functions of 3 variables (x, y, z as numpy arrays)
+#  - optional: i_func: intensity function of 3 variables
+# Other variables can be defined for calculations, but will be ignored.
+
+
+# This is for the V12 standard s4d files, which are 256x256x256
+filter: volume_size[2] == 256
+filter: volume_size[1] == 256
+filter: filename is not None
+filter: 'shear' not in header
+filter: 'perspective' not in header
+filter: '3dsetup' not in header
+
+
+# Scale is mm/pixel
+scale = 0.6
+
+# Rate is volumes/sec
+rate = 200.
+
+# Half-edge length, used as scale for dimensionless units -- x axis is second size dimension!
+a = volume_size[2] * scale / 2.
+a_in = a / 25.4
+n = 1.33
+
+# Effective distance (in water!) from center of airfoil to camera, scaled by half-edge length
+L = (59.5 + 22*n) / a_in
+
+# Offset of camera center from airfoil center
+Dx = 11.25 / a_in
+
+Phi = Dx / L
+
+#Depends on scan direction
+z_sign = 1
+
+Phi = Dx / L
+
+x_x  = cos(Phi)
+x_z  = sin(Phi) * z_sign
+x_xz = cos(2*Phi) / L * z_sign
+
+y_y  = 1
+y_xy = -sin(Phi) / L
+y_yz = cos(Phi) / L * z_sign
+
+z_z  = z_sign
+z_xz = 0 #1 / S * z_sign #lens in place, eliminates this scaling
+
+# The transformation functions have an effective "lambda x, y, z:" prepended to them.
+# x/y/z scaled (-1:1) for cubic frame -- X is considered the reference axis
+x_func = lambda x, y, z: x_x*x + x_z*z + x_xz*x*z
+y_func = lambda x, y, z: y_y*y +         y_xy*x*y + y_yz*y*z 
+z_func = lambda x, y, z: z_z*z +         z_xz*x*z

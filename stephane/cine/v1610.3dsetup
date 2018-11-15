@@ -1,0 +1,77 @@
+**setup**
+# Setup file is composed of filter commands and variable assignments.
+# Must start with **setup**
+# Filter commands should precede assigments in all cases!
+# Comments are ok.
+# Basic math/trig functions from numpy and datetime.datetime imported into namespace.
+# Image4D object imported variables: header, volume_size, filename
+# Filename is filename
+# These should be defined:
+#  - scale (mm/pixel)
+#  - rate (volume rate)
+#  - x_func, y_func, and z_func: functions of 3 variables (x, y, z as numpy arrays)
+#  - optional: i_func: intensity function of 3 variables
+# Other variables can be defined for calculations, but will be ignored.
+
+
+# This is for the V1610 s4d files, which are 384x384x384
+filter: volume_size[2] == 384
+filter: volume_size[1] == 384
+filter: filename is not None
+filter: 'shear' not in header
+filter: 'perspective' not in header
+filter: '3dsetup' not in header
+
+#For converting from cine/sparse
+cine_depth = 420
+x_size = 384
+frame_shape = (384, 384)
+display_frames = range(6, 390) 
+bottom_clip = 80
+
+#For conversion to 8 bit
+u1_top = 2000
+u1_gamma = 2.0
+
+
+# Scale is mm/pixel
+scale = 0.4
+
+# Rate is volumes/sec
+rate = 16E6/211/420
+
+# Half-edge length, used as scale for dimensionless units -- x axis is second size dimension!
+a = x_size * scale / 2.
+a_in = a / 25.4
+n = 1.33
+
+# Effective distance (in water!) from center of airfoil to camera, scaled by half-edge length
+L = (59.5 + 16*n) / a_in
+
+# Offset of camera center from airfoil center
+Dx = 12 / a_in
+
+# Offset of scan center from center of airfoil (in water!)
+S = (12 + 30.5*n) / a_in
+
+#Depends on scan direction
+z_sign = 1
+
+Phi = Dx / L
+
+x_x  = cos(Phi)
+x_z  = sin(Phi) * z_sign
+x_xz = cos(2*Phi) / L * z_sign
+
+y_y  = 1
+y_xy = -sin(Phi) / L
+y_yz = cos(Phi) / L * z_sign
+
+z_z  = z_sign
+z_xz = 1 / S * z_sign
+
+# x/y/z scaled (-1:1) for cubic frame
+x_func = lambda x, y, z: x_x*x + x_z*z + x_xz*x*z
+y_func = lambda x, y, z: y_y*y +         y_xy*x*y + y_yz*y*z 
+z_func = lambda x, y, z: z_z*z +         z_xz*x*z
+
