@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<htm>
+  <head>
+    <meta charset="UTF-8">
+    <style>div.b {line-height: 1.6;}</style>
+  </head>
+  <body>
+    <div class="b">
+      <h2>Past supervised students</h2>
+      <ul>
+        <li>Gabriel Le Doudic, Jet impactant une surface : rôle de la pression et du cisaillement (2018, Université Paris-Sud)</li>
+        <li>Daniel Ruth, Bubble motion in grid generated and jet generated Turbulence (2017, Princeton University)</li>
+        <li>Wayne Weng, Multi-vortex collider for Turbulence generation (2017, University of Chicago)</li>
+        <li>Takumi Matsuzawa, Random knots : a geometrical approach to vortex dynamics (2017, University of Chicago)</li>
+        <li>Bipul Pandey, Lifetime of vortex rings (2017, University of Chicago)</li>
+        <li>Weerapatt Pittayakanchit, Multi-collisions of vortices (2017, University of Chicago)</li>
+        <li>Jiayi Wu, Linear waves and solitons on a lattice of gyroscope (2016, University of Chicago)</li>
+        <li>Gautam Satishchandran, Vortex core measurements with polymer additives (2016, University of Chicago)</li>
+        <li>Joseph Mittelstaedt, Crow instability of a vortex ring (2015, University of Chicago)</li>
+        <li>Maxime Hubert, Marcheur dans un double puits de potentiel (2014, Université Paris-Diderot)</li>
+        <li>Cedric Mezui, Instabilité gyroscopique d'une goutte en lévitation (2014, Université Paris-Diderot)</li>
+        <li>Julien Legrand, Transitions entre niveaux quantifiés d'une dynamique onde-particule (2013, Université Paris-Diderot)</li>
+        <li>Yannick Lamare, Goutte auto-propulsée en lévitation (2013, Université Paris-Diderot)</li>
+        <li>Charles Duchêne, Capillary solitons on a levitated cylinder (2013, Université Paris-Diderot)</li>
+        <li>Loretta Bardavid, Pendule pesant et goutte en lévitation (2013, Université Paris-Diderot)</li>
+        <li>Vincent Bacot, Les premiers pas d'un marcheur (2012, Université Paris-Diderot)</li>
+        <li>Jeremy Haddad, Ondes de surface d'un tore en lévitation (2012, Université Paris-Diderot)</li>
+        <li>Léa Dupuy, Génération de solitions capillaires (2012, Université Paris-Diderot)</li>
+        <li>Guillaume Dupuy, Friction d'une goutte en lévitation (2012, Université Paris-Diderot)</li>
+        <li>Hugo Trenteseaux, Calibration de force magnétique (2011, Université Paris-Diderot)</li>
+        <li>Bastien Loret, Goutte rebondissante en potentiel harmonique (2011, Université Paris-Diderot)</li>
+      </ul>
+    </div>
+  </body>
+</htm>
