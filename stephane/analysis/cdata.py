@@ -22,6 +22,31 @@ import time
 ### some functions to smooth results, remove NaN values, aberrant values and so on,
 ### based on adjacent values (useful for 2d arrays or greater dimension)
 
+
+def nancount(data):
+    print(data.shape)
+    Nnan = np.sum(np.ndarray.flatten(np.isnan(data)))
+    N = np.prod(data.shape)
+    print('Ratio nan :' +str(Nnan/N))
+    print('nan number :'+str(Nnan))
+### CHarge un fichier Data## .
+### CHarge un fichier Data## .
+
+def remove_nan_3d(ff):
+    #Fields with d components along the last axis
+    Nc = ff.shape[-1]
+    Nt = ff.shape[0]
+    for i in range(Nt):
+        for j in range(Nc):
+            data = np.squeeze(ff[i,...,j])
+            indices = np.where(np.isnan(data))
+            #adapted to 3d data
+            (t0,t1,t2) = indices
+            for tup in zip(t0,t1,t2):
+                data = replace_nan(data,tup)
+            ff[i,...,j]=data
+    return ff
+        
 def rm_nan(M,field,rate=0.1):
     """
     Remove nan values from a given field of M (one of its attribute)
