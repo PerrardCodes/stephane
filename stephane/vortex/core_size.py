@@ -567,9 +567,9 @@ def from_circulation_joseph(M,fignum=1,display=True):
         popt, pcov = opt.curve_fit(joseph.circ_by_rad,real_radii,real_gammas,p0=(real_gammas.max(),4.)) # fitting to the correct distribution, give rough first est of core size of 4 mm
         sigma = np.abs(popt[1]) # should be core size in mm
         rad_est.append(sigma) # just need an estimate
-  #      print 'done with estimate %d'%frame_no
+  #      print('done with estimate %d'%frame_no)
     med_rad_est = np.median(rad_est)*ppmm # estimate for mean radius from the 3 random frames
-    print 'estimated radius: %.2f mm'%(med_rad_est/ppmm)
+    print('estimated radius: %.2f mm'%(med_rad_est/ppmm))
 
     # need to make the thing to convolve
     # making the thing to convolve

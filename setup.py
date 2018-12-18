@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup,find_packages
 
 setup(
     name='stephane_codes',
@@ -8,7 +8,7 @@ setup(
     author='Stephane Perrard',
     author_email='stephane.perrard@phys.ens.fr',
     license='MIT',
-    packages=['stephane,piv3d'],
+    packages=find_packages(),
     zip_safe=False,
 #      package_data={'tangle': ['cl_src/*.cl']})
 )
