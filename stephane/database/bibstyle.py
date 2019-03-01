@@ -6,7 +6,7 @@
 
 def author(s,delimiter=' and ',**kwargs):
     num = s.count(delimiter) # count number of authors
-    s = s.replace('{\^e}','ê'.decode('utf-8'))
+    #s = s.replace('{\^e}','ê'.decode('utf-8'))
     if num>1:
         s=s.replace(delimiter,', ',num-1)
         s=s.replace(delimiter,' & ')
