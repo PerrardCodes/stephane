@@ -110,7 +110,7 @@ def rm_nans(U,d=2,rate=0.01):
     return U_new
 
 
-def replace_nan(u,t,mode='mean'):
+def replace_nan(u,t,mode='mean',b=1):
     """
     replace a NaN value by an average of non nan adjacent values (weighted ??)
     INPUT
@@ -129,7 +129,7 @@ def replace_nan(u,t,mode='mean'):
     # if on a corner , mirror the other side ??
     # u corresponds to the matrix given
     # t corresponds to the indices of nan value to remove in u
-    neigh,ind=fast_neighboors(u,t,b=2)
+    neigh,ind=fast_neighboors(u,t,b=b)
     if mode=='mean':
         u[t]=np.nanmean(neigh)
     if mode=='median':

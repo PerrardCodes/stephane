@@ -33,7 +33,7 @@ import h5py
 import stephane.tools.rw_data as rw_data
 
 def get_cutout(
-        filename = 'tst',
+        filename = 'test',
         t0 = 0, tl = 1,
         x0 = 0, xl = 16,
         y0 = 0, yl = 16,

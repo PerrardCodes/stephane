@@ -3,6 +3,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import os
+import pickle
 
 from math import *
 #import stephane.tools.fitting as fitting
@@ -109,7 +110,15 @@ def refresh(hold=True,block=False,ipython=True):
 def subplot(i,j,k):
     plt.subplot(i,j,k)
 
-def legende(x_legend,y_legend,title,display=False,cplot=False,show=True):
+def make_title(keylist,d):
+    s = r''
+    for key in keylist:
+        val = str(np.round(d[key]['value'],decimals=1))
+        s = s+r'$'+d[key]['legend']+'$ = '+val+d[key]['unit']+', '
+    s = s[:-2]
+    return s
+
+def legende(x_legend,y_legend,title,ax=None,font=18,display=False,cplot=False,show=True,**kwargs):
     """
     Add a legend to the current figure
         Contains standard used font and sizes
@@ -131,12 +140,25 @@ def legende(x_legend,y_legend,title,display=False,cplot=False,show=True):
         one element dictionnary with key the current figure number
         contain a default filename generated from the labels
     """
-    font = 18    
+    if ax is None:
+        ax = plt.gca()
+    else:
+        plt.sca(ax)
     #additionnal options ?
     plt.rc('font',family='Times New Roman')
     plt.rc('text', usetex=False)
-    plt.xlabel(x_legend,fontsize=font)
-    plt.ylabel(y_legend,fontsize=font)
+    
+    if r'\frac' in x_legend:
+        plt.xlabel(x_legend,fontsize=font+4)
+    else:
+        plt.xlabel(x_legend,fontsize=font)
+        
+    if r'\frac' in y_legend:
+        plt.ylabel(y_legend,fontsize=font+4,rotation = 0)
+        ax.yaxis.set_label_coords(-0.13, 0.5) 
+    else:
+        plt.ylabel(y_legend,fontsize=font,*kwargs)#,rotation = 0)        
+#    plt.ylabel(y_legend,fontsize=font)
     plt.title(title,fontsize=font)
     
     if show:
@@ -270,17 +292,19 @@ def save_figs(figs,savedir='./',suffix='',prefix='',frmt='pdf',dpi=300,display=F
     for key in figs.keys():
         fig = figs[key]        
         #save the figure
-        filename = savedir+prefix+fig['fignum']+suffix+'_ag'
+        filename = savedir+prefix+fig['fignum']+suffix
         save_fig(key,filename,frmt=frmt,dpi=dpi)
         c+=1
 
         #save the data
         if not fig['data']=={}:
+            with open(filename+'.pkl', 'wb') as handle:
+                pickle.dump(fig['data'], handle, protocol=pickle.HIGHEST_PROTOCOL)
             #print(fig['data'])
-            try:
-                h5py_s.save(filename,fig['data'])
-            except:
-                print('Data not saved')
+            #try:
+            #    h5py_s.save(filename,fig['data'])
+            #except:
+            #    print('Data not saved')
     if display:
         print('Number of auto-saved graphs : '+str(c))
         print(filename)
@@ -312,10 +336,11 @@ def save_fig(fignum,filename,frmt='pdf',dpi=300,overwrite=False):
     
     if not os.path.isfile(filename):
         plt.savefig(filename, dpi=dpi)
+    elif overwrite:
+        plt.savefig(filename, dpi=dpi)
     else:
-        if overwrite:
-            plt.savefig(filename, dpi=dpi)
-
+        print("figure already exists")
+        
 def plot_axes(fig,num):
     ax = fig.add_subplot(num)
     ax.set_aspect('equal', adjustable='box')

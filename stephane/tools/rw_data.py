@@ -30,7 +30,7 @@ def gen_name(param_list):
         string=string+'_'+key+str(param_list[key])+'unit'
     return string
 
-def read_dataFile(file,Hdelimiter=',',Ddelimiter=',',Oneline=False):
+def read_dataFile(file,Hdelimiter=',',Ddelimiter=',',Oneline=False,shift=0):
     """
     Basic function for reading a .txt dataFile
 	
@@ -61,7 +61,7 @@ def read_dataFile(file,Hdelimiter=',',Ddelimiter=',',Oneline=False):
     #Generate a dictionnary with these names
    # Names=[name[0] for name in Names]
 
-    Names=[name for name in Names]    
+    Names=[name for name in Names[shift:]]    
     Data={name:[] for name in Names}  #Just keep the first letter for now (!) should be improved for the first list of characters without space
         
     Data=read_line(fline,Names,Data,Ddelimiter) 
